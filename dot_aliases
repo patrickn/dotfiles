@@ -1,0 +1,33 @@
+# ls
+#alias ll='ls -l --color=auto'
+alias ll='exa -lg'
+alias lt='exa -lg --sort=old'
+
+# confirmation #
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+
+# Misc shell
+alias ..='cd ..'
+alias ...='cd .. && cd ..'
+alias ....='cd .. && cd .. & cd ..'
+alias man=run-help
+
+# CLS & scrollback buffer
+alias cls='printf "\033c"'
+
+alias pbcopy=clip.exe
+#alias pbpaste='xclip -selection clipboard -o'
+
+# Applications
+alias h=history
+alias fd=fdfind
+
+alias woof='echo -e \\a'
+
+# Generate 10 random 2 word passwords, modify -n2 for more words
+alias genpass='look . | egrep "^[a-z]{4,8}$" | shuf | xargs -n2 2>/dev/null | head -10'
+
+# Generate ISO Formatted Date
+alias isodate='date -u +"%Y-%m-%dT%H:%M:%SZ"'
