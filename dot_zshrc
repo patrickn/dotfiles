@@ -18,6 +18,7 @@ HISTORY_IGNORE="(?|??|???|exit|history*|rm*)"
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 # setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_IGNORE_SPACE         # Prepending space to command prevents it being saved in history
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
 setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
@@ -74,7 +75,6 @@ export PATH=$PATH:$HOME/local/golang/bin
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-source /home/patrick/.config/broot/launcher/bash/br
 source $HOME/.aliases
 
 # export PROMPT='%m:%~> '
