@@ -77,8 +77,17 @@ export NVM_DIR="$HOME/.nvm"
 
 source $HOME/.aliases
 
-# export PROMPT='%m:%~> '
-# Change prompt colour if last command exited with error.
-export PROMPT='%m%(?.%(!.#.:%~> ).%F{6}%B:%~> %b%f)'
-#export PS1='$(fancy_dir) $(git_dot)$(seasonal_chevrons) '
-#export RPROMPT='$(git_branch)'
+change_title_bar () {
+
+    case $TERM in
+        xterm*|gnome*)
+            print -Pn "\033]0;`hostname`\a"
+    esac
+}
+
+precmd () {
+    change_title_bar
+    # any other precmd things you want to do
+}
+PROMPT='%m%(?.%(!.#.:%~> ).%F{6}%B:%~> %b%f)'
+
