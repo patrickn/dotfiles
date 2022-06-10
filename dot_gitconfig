@@ -1,0 +1,57 @@
+[user]
+	name = Patrick Neave
+	email = patrick.neave@deltaray.eu
+
+[core]
+	editor = vi
+	longpaths = true
+	hooksPath = git_hooks
+	autocrlf = input
+	pager = diff-so-fancy | less --tabs=3 -RFX
+
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
+	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	conflicts = diff --name-only --diff-filter=U
+   brs = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
+	sw = switch
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+
+[pull]
+	rebase = true
+
+[init]
+	defaultBranch = main
+
+[push]
+	followTags = true
+
+[status]
+	submoduleSummary = true
+
+[diff]
+	tool = p4merge
+
+[merge]
+	tool = p4merge
+
+[difftool "p4merge"]
+	cmd = /mnt/c/Program\\ Files/Perforce/p4merge.exe "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
+
+[mergetool "p4merge"]
+	cmd = /mnt/c/Program\\ Files/Perforce/p4merge.exe "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
+	trustexitcode = false
+[interactive]
+	diffFilter = diff-so-fancy --patch
+
+[color "status"]
+added = green
+changed = red bold
+untracked = magenta bold
+deleted = red
