@@ -22,7 +22,7 @@ alias pbcopy=clip.exe
 
 # Applications
 alias h=history
-alias fd=fdfind
+# alias fd=fdfind
 
 alias woof='echo -e \\a'
 

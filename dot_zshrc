@@ -36,8 +36,9 @@ autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search # Up
-bindkey "${terminfo[kcud1]}" down-line-or-beginning-search # Down
+bindkey '[A' up-line-or-beginning-search # Up
+bindkey '[B' down-line-or-beginning-search # Down
+bindkey "^[[3~" delete-char
 
 # case-insensitive matching only if there are no case-sensitive matches
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
@@ -63,11 +64,6 @@ zstyle ':completion:*' menu select
 # set some configuration vars
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
-# Nodejs
-# VERSION=v14.15.4
-# DISTRO=linux-x64
-# export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
-
 # Go lang and apps
 export PATH=$PATH:$HOME/local/go/bin
 export PATH=$PATH:$HOME/local/golang/bin
@@ -77,11 +73,37 @@ export NVM_DIR="$HOME/.nvm"
 
 source $HOME/.aliases
 
-change_title_bar () {
+function is_toolbox()
+{
+    [ -f "/run/.toolboxenv" ]
+}
 
+function toolbox_name() {
+    if is_toolbox
+    then
+        TOOLBOX_NAME=$(cat /run/.containerenv | grep -oP "(?<=name=\")[^\";]+")
+        echo "$TOOLBOX_NAME"
+    else 
+        echo "Terminal"
+    fi
+}
+
+function change_title_bar() {
     case $TERM in
         xterm*|gnome*)
-            print -Pn "\033]0;`hostname`\a"
+            print -Pn "\033]0; `toolbox_name` \007"
+    esac
+}
+
+function set_bg_colour()
+{
+    case $* in
+    'blue')
+        echo -e '\e]11;rgb:aa/bb/cc\a'
+        ;;
+    'red')
+        echo -e '\e]11;rgb:00/00/00\a'
+        ;;
     esac
 }
 
@@ -89,5 +111,12 @@ precmd () {
     change_title_bar
     # any other precmd things you want to do
 }
-PROMPT='%m%(?.%(!.#.:%~> ).%F{6}%B:%~> %b%f)'
 
+if is_toolbox
+then
+    # set_bg_colour 'blue'
+    PROMPT="%(?.%F{blue}⬢ .%F{red}!!)%F{green}[\`toolbox_name\`]%f%B%F{240}%f%b %~> "
+else
+    # set_bg_colour 'red'
+    PROMPT="%(?.%F{blue}⬢ .%F{red}!!)%f%B%F{240}%f%b %~> "
+fi
