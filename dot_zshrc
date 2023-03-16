@@ -117,8 +117,8 @@ precmd () {
 if is_toolbox
 then
     # set_bg_colour 'blue'
-    PROMPT="%(?.%F{blue}⬢ .%F{red}!!)%F{green}[\`toolbox_name\`]%f%B%F{240}%f%b %~> "
+    PROMPT="%(?.%F{green}⬢ .%F{red}⬢ )%F{green}[\`toolbox_name\`]%f%B%F{240}%f%b %~> "
 else
     # set_bg_colour 'red'
-    PROMPT="%(?.%F{blue}⬢ .%F{red}!!)%f%B%F{240}%f%b %~> "
+    PROMPT="%(?..%F{red}!!)%f%B%F{240}%f%b %~> "
 fi
