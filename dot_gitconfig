@@ -3,7 +3,7 @@
 	email = patrick.neave@deltaray.eu
 
 [core]
-	editor = vi
+	editor = flatpak-spawn --host flatpak run --file-forwarding re.sonny.Commit @@
 	longpaths = true
 	hooksPath = git_hooks
 	autocrlf = input
@@ -19,10 +19,10 @@
 	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
 	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 	conflicts = diff --name-only --diff-filter=U
-   brs = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
+	brs = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
 	sw = switch
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
-   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 
 [pull]
 	rebase = true
