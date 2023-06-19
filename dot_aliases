@@ -1,6 +1,7 @@
 # ls
 #alias ll='ls -l --color=auto'
-alias ll='exa -lg'
+#alias ll='exa -lg'
+alias ll='exa -l --group-directories-first'
 alias lt='exa -lg --sort=old'
 
 # confirmation #

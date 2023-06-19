@@ -23,7 +23,8 @@
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	conflicted = diff --name-only --diff-filter=U --relative
-
+    dft = difftool
+	
 [pull]
 	rebase = true
 
@@ -37,17 +38,17 @@
 	submoduleSummary = true
 
 [diff]
-	tool = p4merge
+	tool = difftastic
 
-[merge]
-	tool = p4merge
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
 
-[difftool "p4merge"]
-	cmd = /mnt/c/Program\\ Files/Perforce/p4merge.exe "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
+[difftool]
+    prompt = false
 
-[mergetool "p4merge"]
-	cmd = /mnt/c/Program\\ Files/Perforce/p4merge.exe "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
-	trustexitcode = false
+[pager]
+    difftool = true
+
 [interactive]
 	diffFilter = diff-so-fancy --patch
 
