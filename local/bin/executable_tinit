@@ -1,0 +1,98 @@
+#!/bin/sh
+
+BASE=1
+DEV=0
+QT=0
+CONAN=0
+VSCODE=0
+
+if [ ! -f "/run/.toolboxenv" ]; then
+    echo "Only run this command in a Toolbox container!"
+    exit 0
+fi
+
+# Uncomment next line to debug
+# set -eux
+
+while true; do
+    read -p "Install VSCode? " yn
+    case $yn in
+        [Yy]* ) VSCODE=1; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Install optional Development (g++, gdb, etc.) tools? " yn
+    case $yn in
+        [Yy]* ) DEV=1; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Install Qt libraries? " yn
+    case $yn in
+        [Yy]* ) QT=1; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Install Conan Perl dependencies? " yn
+    case $yn in
+        [Yy]* ) CONAN=1; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+# dnf upgrade and install base applications
+sudo dnf upgrade
+if [ "$BASE" == "1" ]; then
+    sudo dnf install -y zsh ripgrep fd-find jq
+fi
+
+if [ "$VSCODE" == "1" ]; then
+    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    printf "[vscode]\nname=packages.microsoft.com\nbaseurl=https://packages.microsoft.com/yumrepos/vscode/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc\nmetadata_expire=1h" | sudo tee -a /etc/yum.repos.d/vscode.repo
+    sudo dnf install -y code gnome-keyring
+fi
+
+if [ "$DEV" == "1" ]; then
+    sudo dnf install -y g++ \
+                        ccache \
+                        cmake \
+                        clang-tools-extra \
+                        diff-so-fancy \
+                        gdb \
+                        gcc-objc++ \
+                        gitui
+                        # git
+fi
+
+if [ "$QT" == "1" ]; then
+    sudo dnf install -y libglvnd-glx \
+                        libxkbcommon \
+                        libglvnd-egl \
+                        fontconfig \
+                        mesa-libEGL-devel \
+                        qt6-qtwayland
+fi
+
+if [ "$CONAN" == "1" ]; then
+    sudo dnf install -y perl-Digest-SHA \
+                        perl-FindBin \
+                        perl-File-Compare \
+                        perl-File-Copy \
+                        perl-IPC-Cmd \
+                        perl-open \
+                        perl-Thread \
+                        perl-Thread-Queue
+fi
+
+sudo dnf clean packages
+echo "If you just installed the base application, exit and restart."

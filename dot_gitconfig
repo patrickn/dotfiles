@@ -1,30 +1,37 @@
 [user]
 	name = Patrick Neave
-	email = patrick.neave@deltaray.eu
+	email = patrick.neave@luminex.be
 
 [core]
-	editor = flatpak-spawn --host flatpak run --file-forwarding re.sonny.Commit @@
+	# editor = flatpak-spawn --host flatpak run --file-forwarding re.sonny.Commit @@
+	editor = vi
 	longpaths = true
-	hooksPath = git_hooks
+	hooksPath = /var/home/patrick/local/githooks
 	autocrlf = input
 	pager = diff-so-fancy | less --tabs=3 -RFX
 	excludesFile = ~/.global_gitignore
 
 [alias]
-	co = checkout
+	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 	br = branch
+	brs = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
 	ci = commit
-	st = status
+	co = checkout
+	conflicted = diff --name-only --diff-filter=U --relative
+	contrib = shortlog -e --summary --numbered
+	last = log -1 HEAD
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lg-ascii = log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit
-	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
-	brs = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
-	sw = switch
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	conflicted = diff --name-only --diff-filter=U --relative
+	mergedin = "! git branch --list -a --merged HEAD |  sed 's/^..//;s/ .*//' | xargs git branch --list -a --no-merged master"
+	st = status
+	sw = switch
+	undo = reset --soft HEAD~1
+    brx = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
     dft = difftool
-	
+	conflicts = diff --check
+
 [pull]
 	rebase = true
 
@@ -33,6 +40,7 @@
 
 [push]
 	followTags = true
+	recurseSubmodules = check
 
 [status]
 	submoduleSummary = true
@@ -57,3 +65,11 @@ added = green
 changed = red bold
 untracked = magenta bold
 deleted = red
+[commit]
+	gpgSign = false
+[gui]
+	pruneduringfetch = true
+[smartgit "submodule"]
+	fetchalways = false
+	update = true
+	initializenew = true

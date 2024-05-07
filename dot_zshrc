@@ -7,6 +7,7 @@
 # ~/.zshrc:
 echo "Running ~/.zshrc..."
 
+fpath=(~/local/completions/exa.zsh $fpath)
 autoload -Uz compinit promptinit
 compinit
 promptinit
@@ -85,7 +86,7 @@ function toolbox_name() {
     then
         TOOLBOX_NAME=$(cat /run/.containerenv | grep -oP "(?<=name=\")[^\";]+")
         echo "$TOOLBOX_NAME"
-    else 
+    else
         echo "Terminal"
     fi
 }
@@ -122,3 +123,4 @@ else
     # set_bg_colour 'red'
     PROMPT="%(?..%F{red}!!)%f%B%F{240}%f%b %~> "
 fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
