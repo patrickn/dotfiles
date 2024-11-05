@@ -31,6 +31,7 @@
     brx = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
     dft = difftool
 	conflicts = diff --check
+	wt = worktree
 
 [pull]
 	rebase = true
@@ -41,6 +42,7 @@
 [push]
 	followTags = true
 	recurseSubmodules = check
+	autoSetupRemote = true
 
 [status]
 	submoduleSummary = true
